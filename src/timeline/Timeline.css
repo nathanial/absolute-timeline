@@ -1,14 +1,14 @@
 .timeline {
   border: 1px solid black; }
 
-.timeline-left-bar {
+.timeline .timeline-left-bar {
   width: 150px;
   border-right: 1px solid black; }
 
-.timeline-left-bar .timeline-widget-name {
+.timeline .timeline-left-bar .widget-name {
   text-align: left;
   padding: 10px;
   border-bottom: 1px solid black; }
 
-.timeline-left-bar .timeline-widget-name:last-child {
+.timeline .timeline-left-bar .widget-name:last-child {
   border-bottom: 0px solid black; }

@@ -18,9 +18,9 @@ class App extends Component {
   	super(...arguments);
     this.state = {
       widgets: [
-				{name: 'Widget 1'},
-				{name: 'Widget 2'},
-				{name: 'Widget 3'}
+				{name: 'Widget 1', keyframes:[]},
+				{name: 'Widget 2', keyframes:[]},
+				{name: 'Widget 3', keyframes:[]}
 			]
     };
   }
@@ -37,7 +37,8 @@ class App extends Component {
 	addWidget = () => {
   	this.setState({
   		widgets: this.state.widgets.concat({
-  			name: 'Widget ' + (this.state.widgets.length + 1)
+  			name: 'Widget ' + (this.state.widgets.length + 1),
+				keyframes: []
 			})
 		});
 	}
