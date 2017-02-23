@@ -1,0 +1,16 @@
+.timeline {
+    border: 1px solid black;
+}
+
+.timeline-widget {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+.timeline-widget:last-child {
+    border-bottom: 0px solid black;
+}
+
+.timeline-widget-name {
+}
+
