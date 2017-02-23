@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import './Timeline.css';
 
-function TimelineWidget(props){
+function WidgetName(props){
 	return (
-			<div className="timeline-widget">
-				<span className="timeline-widget-name">
-					{props.widget.name}
-				</span>
-			</div>
+		<div className="timeline-widget-name">
+			<span>
+				{props.widget.name}
+			</span>
+		</div>
 	);
 }
+
 
 export default class Timeline extends Component {
 	static propTypes = {
@@ -23,9 +24,9 @@ export default class Timeline extends Component {
 	render(){
 		return (
 			<div className="timeline">
-				<div className="timeline-widgets">
+				<div className="timeline-left-bar">
 					{this.props.widgets.map(widget => {
-						return <TimelineWidget key={widget.name} widget={widget}/>
+						return <WidgetName key={widget.name} widget={widget}/>
 					})}
 				</div>
 			</div>
