@@ -1,24 +1,23 @@
 .timeline {
-  border: 1px solid black;
+	border: 1px solid black;
 
-  .timeline-left-bar {
-    width: 150px;
-    border-right: 1px solid black;
-    .widget-name {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid black;
+	.timeline-left-bar {
+		width: 150px;
+		border-right: 1px solid black;
+		.widget-name {
+			text-align: left;
+			padding: 10px;
+			border-bottom: 1px solid black;
 
-      &:last-child {
-        border-bottom: 0px solid black;
-      }
-    }
-  }
+			&:last-child {
+				border-bottom: 0px solid black;
+			}
+		}
+	}
 
-  .timeline-body {
-    .widget-keyframes {
+	.timeline-body {
+		.widget-keyframes {
 
-    }
-  }
+		}
+	}
 }
-

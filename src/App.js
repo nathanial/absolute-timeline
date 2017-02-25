@@ -14,16 +14,16 @@ function DemoControls(props){
 }
 
 class App extends Component {
-  constructor(){
-  	super(...arguments);
-    this.state = {
-      widgets: [
+	constructor(){
+		super(...arguments);
+		this.state = {
+			widgets: [
 				{name: 'Widget 1', keyframes:[]},
 				{name: 'Widget 2', keyframes:[]},
 				{name: 'Widget 3', keyframes:[]}
 			]
-    };
-  }
+		};
+	}
 
 	render() {
 		return (
@@ -35,9 +35,9 @@ class App extends Component {
 	}
 
 	addWidget = () => {
-  	this.setState({
-  		widgets: this.state.widgets.concat({
-  			name: 'Widget ' + (this.state.widgets.length + 1),
+		this.setState({
+			widgets: this.state.widgets.concat({
+				name: 'Widget ' + (this.state.widgets.length + 1),
 				keyframes: []
 			})
 		});
