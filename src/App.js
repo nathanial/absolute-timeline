@@ -18,17 +18,26 @@ class App extends Component {
 		super(...arguments);
 		this.state = {
 			widgets: [
-				{name: 'Widget 1', keyframes:[
+				{
+					id: 'w1',
+					name: 'Widget 1',
+					keyframes:[
 					{
 						time: 10
 					}
 				]},
-				{name: 'Widget 2', keyframes:[
+				{
+					id: 'w2',
+					name: 'Widget 2',
+					keyframes: [
 					{
 						time: 20
 					}
 				]},
-				{name: 'Widget 3', keyframes:[
+				{
+					id: 'w3',
+					name: 'Widget 3',
+					keyframes:[
 					{
 						time: 30
 					}
@@ -49,6 +58,7 @@ class App extends Component {
 	addWidget = () => {
 		this.setState({
 			widgets: this.state.widgets.concat({
+				id: `w${this.state.widgets.length + 1}`,
 				name: 'Widget ' + (this.state.widgets.length + 1),
 				keyframes: [
 					{

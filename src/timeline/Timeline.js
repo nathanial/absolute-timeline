@@ -24,7 +24,7 @@ function WidgetKeyframe(props){
 
 function WidgetKeyframes(props){
 	return (
-		<div className="widget-keyframes">
+		<div className="widget-keyframes" data-widget-id={props.widget.id}>
 			{props.widget.keyframes.map((keyframe, index) => {
 				return <WidgetKeyframe key={index} keyframe={keyframe} />
 			})}
@@ -41,8 +41,9 @@ function TimelineHeader(props){
 
 function ContextMenuItem(props) {
 	const label = props.label;
+	const otherProps = _.omit(props, 'label');
 	return (
-		<div className="context-menu-item">
+		<div className="context-menu-item" {...otherProps}>
 			{label}
 		</div>
 	)
@@ -57,8 +58,7 @@ class ContextMenu extends Component {
 		}
 		return (
 			<div className="context-menu" style={style}>
-				<ContextMenuItem label="Add Keyframe" />
-				<ContextMenuItem label="Delete Keyframe" />
+				{this.props.children}
 			</div>
 		);
 	}
@@ -93,31 +93,61 @@ export default class Timeline extends Component {
 						})}
 					</div>
 				</div>
-				{this.state.showContextMenu && <ContextMenu ref="contextMenu" position={this.state.contextMenuPosition} />}
+				{this.renderContextMenu()}
 			</div>
+		);
+	}
+
+	renderContextMenu(){
+		if(!this.state.showContextMenu){
+			return;
+		}
+		return (
+			<ContextMenu ref="contextMenu" position={this.state.contextMenuPosition} >
+				<ContextMenuItem label="Add Keyframe" onClick={this.onAddKeyframe} />
+				<ContextMenuItem label="Delete Keyframe" onClick={this.onDeleteKeyframe}/>
+			</ContextMenu>
 		);
 	}
 
 	onShowContextMenu = (event) => {
 		event.preventDefault();
-		if(!this.state.showContextMenu){
-			document.addEventListener('mousedown', this.onHideContextMenu, true);
+
+		const widgetId = event.target.dataset.widgetId;
+		console.log("Widget ID", widgetId);
+		if(!_.isUndefined(widgetId)){
+			if(!this.state.showContextMenu){
+				document.addEventListener('mousedown', this.onHideContextMenu, true);
+			}
+			this.setState({
+				showContextMenu: true,
+				contextMenuWidget: _.find(this.props.widgets, w => w.id === widgetId),
+				contextMenuPosition: { left: event.clientX, top: event.clientY}
+			});
 		}
-		this.setState({
-			showContextMenu: true,
-			contextMenuPosition: { left: event.clientX, top: event.clientY}
-		});
 	}
 
 	onHideContextMenu = (event) => {
 		const contextMenuNode = ReactDOM.findDOMNode(this.refs.contextMenu);
-		if(contextMenuNode.contains(event.target)) {
-			console.log("Clicked on context menu")
-		} else {
-			this.setState({
-				showContextMenu: false
-			});
-			document.removeEventListener('mousedown', this.onHideContextMenu, true);
+		if(!contextMenuNode.contains(event.target)) {
+			this.hideContextMenu();
 		}
+	}
+
+	onAddKeyframe = () => {
+		console.log("Add Keyframe", this.state.contextMenuWidget);
+		this.hideContextMenu();
+	}
+
+	onDeleteKeyframe = () => {
+		console.log("Delete Keyframe");
+		this.hideContextMenu();
+	}
+
+	hideContextMenu = () => {
+		this.setState({
+			showContextMenu: false
+		});
+		document.removeEventListener('mousedown', this.onHideContextMenu, true);
 	}
 }
