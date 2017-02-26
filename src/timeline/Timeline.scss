@@ -49,6 +49,13 @@
 	position: absolute;
 	background: white;
 	border: 1px solid black;
-	width: 100px;
-	height: 300px;
+	.context-menu-item {
+		font-size: 11px;
+		padding: 10px 20px;
+		cursor: pointer;
+		text-align: left;
+		&:hover {
+			background: #ccc;
+		}
+	}
 }

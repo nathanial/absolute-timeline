@@ -39,6 +39,15 @@ function TimelineHeader(props){
 	);
 }
 
+function ContextMenuItem(props) {
+	const label = props.label;
+	return (
+		<div className="context-menu-item">
+			{label}
+		</div>
+	)
+}
+
 class ContextMenu extends Component {
 	render(){
 		const props = this.props;
@@ -48,6 +57,8 @@ class ContextMenu extends Component {
 		}
 		return (
 			<div className="context-menu" style={style}>
+				<ContextMenuItem label="Add Keyframe" />
+				<ContextMenuItem label="Delete Keyframe" />
 			</div>
 		);
 	}
