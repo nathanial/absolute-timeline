@@ -18,9 +18,21 @@ class App extends Component {
 		super(...arguments);
 		this.state = {
 			widgets: [
-				{name: 'Widget 1', keyframes:[]},
-				{name: 'Widget 2', keyframes:[]},
-				{name: 'Widget 3', keyframes:[]}
+				{name: 'Widget 1', keyframes:[
+					{
+						time: 10
+					}
+				]},
+				{name: 'Widget 2', keyframes:[
+					{
+						time: 20
+					}
+				]},
+				{name: 'Widget 3', keyframes:[
+					{
+						time: 30
+					}
+				]}
 			]
 		};
 	}
@@ -38,7 +50,11 @@ class App extends Component {
 		this.setState({
 			widgets: this.state.widgets.concat({
 				name: 'Widget ' + (this.state.widgets.length + 1),
-				keyframes: []
+				keyframes: [
+					{
+						time: Math.random() * 40
+					}
+				]
 			})
 		});
 	}
