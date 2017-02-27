@@ -40,9 +40,11 @@
 			.widget-keyframe {
 				border-bottom: 1px solid transparent;
 				position: absolute;
-				background: red;
+				top: 13px;
+				background: #333;
 				width: 10px;
 				height: 10px;
+				border-radius: 50%;
 			}
 		}
 	}

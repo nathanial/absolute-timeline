@@ -66,16 +66,21 @@ class ContextMenu extends PureComponent {
 
 export default class Timeline extends Component {
 	static propTypes = {
-		widgets: React.PropTypes.object.isRequired
+		widgets: React.PropTypes.object.isRequired,
+		onAddKeyframe: React.PropTypes.func
 	};
 
 	static defaultProps = {
-		widgets: []
+		widgets: [],
+		onAddKeyframe: () => {},
+		onDeleteKeyframe: () => {}
 	};
 
 	state = {
-		showContextMenu: false
-	}
+		showContextMenu: false,
+		contextMenuWidget: null,
+		contextMenuKeyframe: null
+	};
 
 	render(){
 		return (
@@ -124,24 +129,32 @@ export default class Timeline extends Component {
 				contextMenuPosition: { left: event.clientX, top: event.clientY}
 			});
 		}
-	}
+	};
 
 	onHideContextMenu = (event) => {
 		const contextMenuNode = ReactDOM.findDOMNode(this.refs.contextMenu);
 		if(!contextMenuNode.contains(event.target)) {
 			this.hideContextMenu();
 		}
-	}
+	};
 
 	onAddKeyframe = () => {
-		console.log("Add Keyframe", this.state.contextMenuWidget);
+		this.props.onAddKeyframe({
+			widget: this.state.contextMenuWidget,
+			time: (this.state.contextMenuPosition.left - 155) / 10
+		});
 		this.hideContextMenu();
-	}
+	};
 
 	onDeleteKeyframe = () => {
-		console.log("Delete Keyframe");
+		if(this.state.contextMenuKeyframe){
+			this.props.onDeleteKeyframe({
+				widget: this.state.contextMenuWidget,
+				keyframe: this.state.contextMenuKeyframe
+			});
+		}
 		this.hideContextMenu();
-	}
+	};
 
 	hideContextMenu = () => {
 		this.setState({

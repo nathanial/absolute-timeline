@@ -50,7 +50,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Timeline widgets={this.state.widgets} />
+				<Timeline widgets={this.state.widgets} onAddKeyframe={this.onAddKeyframe} onDeleteKeyframe={this.onDeleteKeyframe}/>
 				<DemoControls addWidget={this.addWidget}  />
 			</div>
 		);
@@ -69,6 +69,20 @@ class App extends Component {
 		this.setState({
 			widgets: this.state.widgets.concat([widget])
 		});
+	}
+
+	onAddKeyframe = ({widget, time}) => {
+		const index = this.state.widgets.findKey(x => x === widget);
+		const widgets = this.state.widgets.updateIn([index, 'keyframes'], x => x.concat([Immutable.fromJS({time})]))
+		console.log("Widgets", widgets.get(2).get('keyframes'))
+		this.setState({
+			widgets
+		});
+
+	}
+
+	onDeleteKeyframe = () => {
+		console.log("Delete Keyframe", ...arguments);
 	}
 }
 
