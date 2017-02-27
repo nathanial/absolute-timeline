@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import './Timeline.css';
 import _ from 'lodash'
@@ -7,7 +7,7 @@ function WidgetName(props){
 	return (
 		<div className="widget-name">
 			<span>
-				{props.widget.name}
+				{props.widget.get('name')}
 			</span>
 		</div>
 	);
@@ -15,7 +15,7 @@ function WidgetName(props){
 
 function WidgetKeyframe(props){
 	const style = {
-		left: props.keyframe.time * 10
+		left: props.keyframe.get('time') * 10
 	};
 	return (
 		<div className="widget-keyframe" style={style}></div>
@@ -24,8 +24,8 @@ function WidgetKeyframe(props){
 
 function WidgetKeyframes(props){
 	return (
-		<div className="widget-keyframes" data-widget-id={props.widget.id}>
-			{props.widget.keyframes.map((keyframe, index) => {
+		<div className="widget-keyframes" data-widget-id={props.widget.get('id')}>
+			{props.widget.get('keyframes').map((keyframe, index) => {
 				return <WidgetKeyframe key={index} keyframe={keyframe} />
 			})}
 		</div>
@@ -49,7 +49,7 @@ function ContextMenuItem(props) {
 	)
 }
 
-class ContextMenu extends Component {
+class ContextMenu extends PureComponent {
 	render(){
 		const props = this.props;
 		const style = {
@@ -66,7 +66,7 @@ class ContextMenu extends Component {
 
 export default class Timeline extends Component {
 	static propTypes = {
-		widgets: React.PropTypes.array.isRequired
+		widgets: React.PropTypes.object.isRequired
 	};
 
 	static defaultProps = {
@@ -84,12 +84,12 @@ export default class Timeline extends Component {
 				<div className="timeline">
 					<div className="timeline-left-bar">
 						{this.props.widgets.map(widget => {
-							return <WidgetName key={widget.name} widget={widget}/>
+							return <WidgetName key={widget.get('name')} widget={widget}/>
 						})}
 					</div>
 					<div className="timeline-body" onContextMenu={this.onShowContextMenu}>
 						{this.props.widgets.map(widget => {
-							return <WidgetKeyframes key={widget.name} widget={widget} />
+							return <WidgetKeyframes key={widget.get('name')} widget={widget} />
 						})}
 					</div>
 				</div>
@@ -114,14 +114,13 @@ export default class Timeline extends Component {
 		event.preventDefault();
 
 		const widgetId = event.target.dataset.widgetId;
-		console.log("Widget ID", widgetId);
 		if(!_.isUndefined(widgetId)){
 			if(!this.state.showContextMenu){
 				document.addEventListener('mousedown', this.onHideContextMenu, true);
 			}
 			this.setState({
 				showContextMenu: true,
-				contextMenuWidget: _.find(this.props.widgets, w => w.id === widgetId),
+				contextMenuWidget: this.props.widgets.find(w => w.get('id') === widgetId),
 				contextMenuPosition: { left: event.clientX, top: event.clientY}
 			});
 		}
