@@ -72,16 +72,21 @@ class App extends Component {
 	}
 
 	onAddKeyframe = ({widget, time}) => {
+		time = Math.round(time);
 		const index = this.state.widgets.findKey(x => x === widget);
 		const widgets = this.state.widgets.updateIn([index, 'keyframes'], x => x.concat([Immutable.fromJS({time})]))
 		this.setState({
 			widgets
 		});
-
 	}
 
-	onDeleteKeyframe = () => {
-		console.log("Delete Keyframe", ...arguments);
+	onDeleteKeyframe = ({widget, keyframe}) => {
+		const widgetIndex = this.state.widgets.findKey(x => x === widget);
+		const keyframeIndex = widget.get('keyframes').findKey(x => x === keyframe);
+		const widgets = this.state.widgets.deleteIn([widgetIndex, 'keyframes', keyframeIndex])
+		this.setState({
+			widgets
+		})
 	}
 }
 

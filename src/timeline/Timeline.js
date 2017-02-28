@@ -120,14 +120,23 @@ export default class Timeline extends Component {
 	onShowContextMenu = (event) => {
 		event.preventDefault();
 
-		const widgetId = event.target.dataset.widgetId;
+		const widgetId = this.getWidgetId(event.target);
 		if(!_.isUndefined(widgetId)){
 			if(!this.state.showContextMenu){
 				document.addEventListener('mousedown', this.onHideContextMenu, true);
 			}
+			const time = Math.round((event.clientX - 150) / 25);
+			const widget =  this.props.widgets.find(w => w.get('id') === widgetId);
+			let keyframe = null;
+			if(widget){
+				keyframe = widget.get('keyframes').find(k => (
+					k.get('time') === Math.round(time)
+				));
+			}
 			this.setState({
 				showContextMenu: true,
-				contextMenuWidget: this.props.widgets.find(w => w.get('id') === widgetId),
+				contextMenuWidget: widget,
+				contextMenuKeyframe: keyframe,
 				contextMenuPosition: { left: event.clientX, top: event.clientY}
 			});
 		}
@@ -163,5 +172,13 @@ export default class Timeline extends Component {
 			showContextMenu: false
 		});
 		document.removeEventListener('mousedown', this.onHideContextMenu, true);
+	}
+
+	getWidgetId(target){
+		let widgetId = target.dataset.widgetId;
+		if(!_.isUndefined(widgetId)){
+			return widgetId;
+		}
+		return target.parentNode.dataset.widgetId;
 	}
 }
