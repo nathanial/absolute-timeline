@@ -10,8 +10,14 @@ export default function TimelineBody(props){
 		onKeyframeDrag,
 		onKeyframeDragComplete
 	} = props;
+
+	function onScroll(event){
+		console.log("Scroll", event);
+
+	}
+
 	return (
-		<div className="timeline-body" onContextMenu={onShowContextMenu}>
+		<div className="timeline-body" onContextMenu={onShowContextMenu} onScroll={onScroll}>
 			{widgets.map(widget =>
 				<div key={widget.get('id')}
 					 className="widget-keyframes"
