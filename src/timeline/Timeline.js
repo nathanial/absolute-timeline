@@ -75,9 +75,9 @@ export default class Timeline extends Component {
 
 	render(){
 		return (
-			<div className="timeline-container">
+			<div className="timeline">
 				<TimelineHeader widgets={this.props.widgets} />
-				<div className="timeline">
+				<div className="timeline-body-container">
 					<div className="timeline-left-bar">
 						{this.props.widgets.map(widget => {
 							return <WidgetName key={widget.get('name')} widget={widget}/>

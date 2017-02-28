@@ -1,15 +1,4 @@
-.timeline-header {
-	position: relative;
-	display: block;
-	height: 30px;
-	user-select: none;
-	.horizontal-tickbar {
-		left: 151px;
-		& > .tick {
-			height: 10px;
-		}
-	}
-}
+
 
 .timeline {
 	cursor: default !important;
@@ -17,63 +6,84 @@
 	text-align: left;
 	position: relative;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-content:stretch;
 
-	.timeline-left-bar {
-		width: 150px;
-		border-right: 1px solid black;
-		.widget-name {
-			text-align: left;
-			padding: 10px;
-			border-bottom: 1px solid black;
-
-			&:last-child {
-				border-bottom: 0px solid black;
+	.timeline-header {
+		position: relative;
+		display: block;
+		height: 30px;
+		user-select: none;
+		.horizontal-tickbar {
+			left: 150px;
+			& > .tick {
+				height: 10px;
 			}
 		}
-		user-select: none;
+		overflow: hidden;
 	}
 
-	.timeline-body {
-		overflow: auto;
-		flex: 1;
-		position: relative;
-		.widget-keyframes {
+	.timeline-body-container {
+		display: flex;
+		flex-direction: row;
+		align-content:stretch;
+		border-top: 1px solid black;
+		overflow: hidden;
+		.timeline-left-bar {
+			width: 150px;
+			border-right: 1px solid black;
+			.widget-name {
+				text-align: left;
+				padding: 10px;
+				border-bottom: 1px solid black;
+
+				&:last-child {
+					border-bottom: 0px solid black;
+				}
+			}
+			user-select: none;
+		}
+
+		.timeline-body {
+			flex: 1;
 			position: relative;
-			width: 100%;
-			height: 38px;
-			border-bottom: 1px solid black;
-			.horizontal-tickbar {
-				left: -1px;
-				.tick {
-					background: #aaa;
-					&:first-child {
-						display: none;
+			.widget-keyframes {
+				position: relative;
+				width: 100%;
+				height: 38px;
+				border-bottom: 1px solid black;
+				.horizontal-tickbar {
+					left: -1px;
+					.tick {
+						background: #aaa;
+						&:first-child {
+							display: none;
+						}
+					}
+				}
+
+				&:last-child {
+					border-bottom-width: 0;
+				}
+				.widget-keyframe {
+					pointer: default;
+					border-bottom: 1px solid transparent;
+					position: absolute;
+					top: 13px;
+					margin-left: -6px;
+					background: #333;
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+
+					&:active {
+						background: cornflowerblue;
 					}
 				}
 			}
-
-			&:last-child {
-				border-bottom-width: 0;
-			}
-			.widget-keyframe {
-				pointer: default;
-				border-bottom: 1px solid transparent;
-				position: absolute;
-				top: 13px;
-				margin-left: -6px;
-				background: #333;
-				width: 10px;
-				height: 10px;
-				border-radius: 50%;
-
-				&:active {
-					background: cornflowerblue;
-				}
-			}
 		}
 	}
+
 }
 
 
