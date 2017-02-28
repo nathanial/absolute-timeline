@@ -67,7 +67,7 @@ class App extends Component {
 			name: 'Widget ' + (this.state.widgets.size + 1),
 			keyframes: [
 				{
-					time: Math.random() * 25
+					time: Math.round(Math.random() * 25)
 				}
 			]
 		});

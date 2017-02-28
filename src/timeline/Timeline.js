@@ -86,6 +86,7 @@ export default class Timeline extends Component {
 					<div className="timeline-body" onContextMenu={this.onShowContextMenu}>
 						{this.props.widgets.map(widget =>
 							<div key={widget.get('id')} className="widget-keyframes" data-widget-id={widget.get('id')}>
+								<HorizontalTickbar/>
 								{widget.get('keyframes').map((keyframe, index) =>
 									<WidgetKeyframe key={index}
 													widget={widget}
