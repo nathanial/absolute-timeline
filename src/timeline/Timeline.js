@@ -15,10 +15,10 @@ function WidgetName(props){
 	);
 }
 
-function TimelineHeader(props){
+function TimelineHeader({startTime}){
 	return (
 		<div className="timeline-header">
-			<HorizontalTickbar showLabels={true}/>
+			<HorizontalTickbar startTime={startTime} showLabels={true}/>
 		</div>
 	);
 }
@@ -55,16 +55,23 @@ export default class Timeline extends Component {
 		onDeleteKeyframe: React.PropTypes.func,
 		onKeyframeDragStart: React.PropTypes.func,
 		onKeyframeDrag: React.PropTypes.func,
-		onKeyframeDragComplete: React.PropTypes.func
+		onKeyframeDragComplete: React.PropTypes.func,
+		totalTime: React.PropTypes.number.isRequired,
+		onTotalTimeChanged: React.PropTypes.func,
+		startTime: React.PropTypes.number,
+		onStartTimeChanged: React.PropTypes.func
 	};
 
 	static defaultProps = {
 		widgets: [],
+		startTime: 0,
 		onAddKeyframe: () => {},
 		onDeleteKeyframe: () => {},
 		onKeyframeDragStart: () => {},
 		onKeyframeDrag: () => {},
-		onKeyframeDragComplete: () => {}
+		onKeyframeDragComplete: () => {},
+		onTotalTimeChanged: () => {},
+		onStartTimeChanged: () => {}
 	};
 
 	state = {
@@ -74,20 +81,24 @@ export default class Timeline extends Component {
 	};
 
 	render(){
+		const {totalTime} = this.props;
 		return (
 			<div className="timeline">
-				<TimelineHeader widgets={this.props.widgets} />
+				<TimelineHeader startTime={this.props.startTime} widgets={this.props.widgets} />
 				<div className="timeline-body-container">
 					<div className="timeline-left-bar">
 						{this.props.widgets.map(widget => {
 							return <WidgetName key={widget.get('name')} widget={widget}/>
 						})}
 					</div>
-					<TimelineBody widgets={this.props.widgets}
+					<TimelineBody ref="timelineBody" widgets={this.props.widgets}
+								  startTime={this.props.startTime}
+								  totalTime={this.props.totalTime}
 								  onShowContextMenu={this.onShowContextMenu}
 								  onKeyframeDragStart={this.props.onKeyframeDragStart}
 								  onKeyframeDrag={this.props.onKeyframeDrag}
-								  onKeyframeDragComplete={this.props.onKeyframeDragComplete}/>
+								  onKeyframeDragComplete={this.props.onKeyframeDragComplete}
+								  onScroll={this.onBodyScroll}/>
 				</div>
 				{this.renderContextMenu()}
 			</div>
@@ -169,5 +180,13 @@ export default class Timeline extends Component {
 			return widgetId;
 		}
 		return target.parentNode.dataset.widgetId;
+	}
+
+	onBodyScroll = (handler, event) => {
+		const bodyEl = ReactDOM.findDOMNode(this.refs.timelineBody);
+		if(bodyEl.scrollLeft + bodyEl.clientWidth >= bodyEl.scrollWidth){
+			this.props.onTotalTimeChanged(this.props.totalTime + 1);
+		}
+		this.props.onStartTimeChanged((bodyEl.scrollLeft) / 25)
 	}
 }

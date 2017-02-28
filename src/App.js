@@ -18,6 +18,8 @@ class App extends Component {
 	constructor(){
 		super(...arguments);
 		this.state = {
+			totalTime: 30,
+			startTime: 0,
 			widgets: Immutable.fromJS([
 				{
 					id: 'w1',
@@ -51,11 +53,15 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Timeline widgets={this.state.widgets}
+						  startTime={this.state.startTime}
+						  totalTime={this.state.totalTime}
 						  onAddKeyframe={this.onAddKeyframe}
 						  onDeleteKeyframe={this.onDeleteKeyframe}
 						  onKeyframeDragStart={this.onKeyframeDragStart}
 						  onKeyframeDrag={this.onKeyframeDrag}
-						  onKeyframeDragComplete={this.onKeyframeDragComplete}/>
+						  onKeyframeDragComplete={this.onKeyframeDragComplete}
+						  onTotalTimeChanged={this.onTotalTimeChanged}
+				   		  onStartTimeChanged={this.onStartTimeChanged}/>
 				<DemoControls addWidget={this.addWidget}  />
 			</div>
 		);
@@ -115,6 +121,18 @@ class App extends Component {
 			widgetIndex: this.state.widgets.findKey(x => x === widget),
 			keyframeIndex: widget.get('keyframes').findKey(x => x === keyframe)
 		};
+	}
+
+	onTotalTimeChanged = (newTime) => {
+		this.setState({
+			totalTime: newTime
+		});
+	}
+
+	onStartTimeChanged = (newStartTime) => {
+		this.setState({
+			startTime: newStartTime
+		});
 	}
 }
 
