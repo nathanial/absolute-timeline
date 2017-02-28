@@ -50,7 +50,12 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Timeline widgets={this.state.widgets} onAddKeyframe={this.onAddKeyframe} onDeleteKeyframe={this.onDeleteKeyframe}/>
+				<Timeline widgets={this.state.widgets}
+						  onAddKeyframe={this.onAddKeyframe}
+						  onDeleteKeyframe={this.onDeleteKeyframe}
+						  onKeyframeDragStart={this.onKeyframeDragStart}
+						  onKeyframeDrag={this.onKeyframeDrag}
+						  onKeyframeDragComplete={this.onKeyframeDragComplete}/>
 				<DemoControls addWidget={this.addWidget}  />
 			</div>
 		);
@@ -81,12 +86,35 @@ class App extends Component {
 	}
 
 	onDeleteKeyframe = ({widget, keyframe}) => {
-		const widgetIndex = this.state.widgets.findKey(x => x === widget);
-		const keyframeIndex = widget.get('keyframes').findKey(x => x === keyframe);
+		const {widgetIndex, keyframeIndex} = this.getWidgetAndKeyframeIndexes(widget, keyframe);
 		const widgets = this.state.widgets.deleteIn([widgetIndex, 'keyframes', keyframeIndex])
 		this.setState({
 			widgets
 		})
+	}
+
+	onKeyframeDragStart = ({widget, keyframe}) => {
+	};
+
+	onKeyframeDragComplete = ({widget, keyframe}) => {}
+
+	onKeyframeDrag = ({widget, keyframe, time}) => {
+		if(time < 0) {
+			time = 0;
+		}
+		time = Math.round(time);
+		const {widgetIndex, keyframeIndex} = this.getWidgetAndKeyframeIndexes(widget, keyframe);
+		const widgets = this.state.widgets.updateIn([widgetIndex, 'keyframes', keyframeIndex, 'time'], k => time);
+		this.setState({
+			widgets
+		});
+	}
+
+	getWidgetAndKeyframeIndexes(widget, keyframe) {
+		return {
+			widgetIndex: this.state.widgets.findKey(x => x === widget),
+			keyframeIndex: widget.get('keyframes').findKey(x => x === keyframe)
+		};
 	}
 }
 

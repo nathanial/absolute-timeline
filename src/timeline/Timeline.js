@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './Timeline.css';
 import _ from 'lodash'
 import HorizontalTickbar from './HorizontalTickBar'
+import WidgetKeyframe from './WidgetKeyframe';
 
 function WidgetName(props){
 	return (
@@ -14,29 +15,10 @@ function WidgetName(props){
 	);
 }
 
-function WidgetKeyframe(props){
-	const style = {
-		left: props.keyframe.get('time') * 25
-	};
-	return (
-		<div className="widget-keyframe" style={style}></div>
-	);
-}
-
-function WidgetKeyframes(props){
-	return (
-		<div className="widget-keyframes" data-widget-id={props.widget.get('id')}>
-			{props.widget.get('keyframes').map((keyframe, index) => {
-				return <WidgetKeyframe key={index} keyframe={keyframe} />
-			})}
-		</div>
-	);
-}
-
 function TimelineHeader(props){
 	return (
 		<div className="timeline-header">
-			<HorizontalTickbar />
+			<HorizontalTickbar showLabels={true}/>
 		</div>
 	);
 }
@@ -69,13 +51,20 @@ class ContextMenu extends PureComponent {
 export default class Timeline extends Component {
 	static propTypes = {
 		widgets: React.PropTypes.object.isRequired,
-		onAddKeyframe: React.PropTypes.func
+		onAddKeyframe: React.PropTypes.func,
+		onDeleteKeyframe: React.PropTypes.func,
+		onKeyframeDragStart: React.PropTypes.func,
+		onKeyframeDrag: React.PropTypes.func,
+		onKeyframeDragComplete: React.PropTypes.func
 	};
 
 	static defaultProps = {
 		widgets: [],
 		onAddKeyframe: () => {},
-		onDeleteKeyframe: () => {}
+		onDeleteKeyframe: () => {},
+		onKeyframeDragStart: () => {},
+		onKeyframeDrag: () => {},
+		onKeyframeDragComplete: () => {}
 	};
 
 	state = {
@@ -95,9 +84,18 @@ export default class Timeline extends Component {
 						})}
 					</div>
 					<div className="timeline-body" onContextMenu={this.onShowContextMenu}>
-						{this.props.widgets.map(widget => {
-							return <WidgetKeyframes key={widget.get('name')} widget={widget} />
-						})}
+						{this.props.widgets.map(widget =>
+							<div key={widget.get('id')} className="widget-keyframes" data-widget-id={widget.get('id')}>
+								{widget.get('keyframes').map((keyframe, index) =>
+									<WidgetKeyframe key={index}
+													widget={widget}
+													keyframe={keyframe}
+													onDragStart={this.props.onKeyframeDragStart}
+													onDrag={this.props.onKeyframeDrag}
+													onDragComplete={this.props.onKeyframeDragComplete} />
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 				{this.renderContextMenu()}
