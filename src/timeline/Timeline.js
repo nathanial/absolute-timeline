@@ -2,6 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import './Timeline.css';
 import _ from 'lodash'
+import HorizontalTickbar from './HorizontalTickBar'
 
 function WidgetName(props){
 	return (
@@ -15,7 +16,7 @@ function WidgetName(props){
 
 function WidgetKeyframe(props){
 	const style = {
-		left: props.keyframe.get('time') * 10
+		left: props.keyframe.get('time') * 25
 	};
 	return (
 		<div className="widget-keyframe" style={style}></div>
@@ -35,6 +36,7 @@ function WidgetKeyframes(props){
 function TimelineHeader(props){
 	return (
 		<div className="timeline-header">
+			<HorizontalTickbar />
 		</div>
 	);
 }
@@ -141,7 +143,7 @@ export default class Timeline extends Component {
 	onAddKeyframe = () => {
 		this.props.onAddKeyframe({
 			widget: this.state.contextMenuWidget,
-			time: (this.state.contextMenuPosition.left - 155) / 10
+			time: (this.state.contextMenuPosition.left - 150) / 25
 		});
 		this.hideContextMenu();
 	};

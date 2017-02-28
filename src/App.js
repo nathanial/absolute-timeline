@@ -24,7 +24,7 @@ class App extends Component {
 					name: 'Widget 1',
 					keyframes:[
 					{
-						time: 10
+						time: 1
 					}
 				]},
 				{
@@ -32,7 +32,7 @@ class App extends Component {
 					name: 'Widget 2',
 					keyframes: [
 					{
-						time: 20
+						time: 2
 					}
 				]},
 				{
@@ -40,7 +40,7 @@ class App extends Component {
 					name: 'Widget 3',
 					keyframes:[
 					{
-						time: 30
+						time: 3
 					}
 				]}
 			])
@@ -62,7 +62,7 @@ class App extends Component {
 			name: 'Widget ' + (this.state.widgets.size + 1),
 			keyframes: [
 				{
-					time: Math.random() * 40
+					time: Math.random() * 25
 				}
 			]
 		});
@@ -74,7 +74,6 @@ class App extends Component {
 	onAddKeyframe = ({widget, time}) => {
 		const index = this.state.widgets.findKey(x => x === widget);
 		const widgets = this.state.widgets.updateIn([index, 'keyframes'], x => x.concat([Immutable.fromJS({time})]))
-		console.log("Widgets", widgets.get(2).get('keyframes'))
 		this.setState({
 			widgets
 		});
