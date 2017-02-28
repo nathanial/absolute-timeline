@@ -18,7 +18,6 @@ function WidgetName(props){
 function TimelineHeader({startTime}){
 	return (
 		<div className="timeline-header">
-			<HorizontalTickbar startTime={startTime} showLabels={true}/>
 		</div>
 	);
 }
