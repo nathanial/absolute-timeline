@@ -150,9 +150,11 @@ export default class Timeline extends Component {
 	};
 
 	onAddKeyframe = () => {
+		const bodyEl = ReactDOM.findDOMNode(this.refs.timelineBody);
+		const scrollLeft = bodyEl.scrollLeft;
 		this.props.onAddKeyframe({
 			widget: this.state.contextMenuWidget,
-			time: (this.state.contextMenuPosition.left - 150) / 25
+			time: ((this.state.contextMenuPosition.left - 150) + scrollLeft) / 25
 		});
 		this.hideContextMenu();
 	};
