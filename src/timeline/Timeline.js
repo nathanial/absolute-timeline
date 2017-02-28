@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './Timeline.css';
 import _ from 'lodash'
 import HorizontalTickbar from './HorizontalTickBar'
-import WidgetKeyframe from './WidgetKeyframe';
+import TimelineBody from './TimelineBody';
 
 function WidgetName(props){
 	return (
@@ -83,21 +83,11 @@ export default class Timeline extends Component {
 							return <WidgetName key={widget.get('name')} widget={widget}/>
 						})}
 					</div>
-					<div className="timeline-body" onContextMenu={this.onShowContextMenu}>
-						{this.props.widgets.map(widget =>
-							<div key={widget.get('id')} className="widget-keyframes" data-widget-id={widget.get('id')}>
-								<HorizontalTickbar/>
-								{widget.get('keyframes').map((keyframe, index) =>
-									<WidgetKeyframe key={index}
-													widget={widget}
-													keyframe={keyframe}
-													onDragStart={this.props.onKeyframeDragStart}
-													onDrag={this.props.onKeyframeDrag}
-													onDragComplete={this.props.onKeyframeDragComplete} />
-								)}
-							</div>
-						)}
-					</div>
+					<TimelineBody widgets={this.props.widgets}
+								  onShowContextMenu={this.onShowContextMenu}
+								  onKeyframeDragStart={this.props.onKeyframeDragStart}
+								  onKeyframeDrag={this.props.onKeyframeDrag}
+								  onKeyframeDragComplete={this.props.onKeyframeDragComplete}/>
 				</div>
 				{this.renderContextMenu()}
 			</div>
